@@ -37,7 +37,7 @@ module Less
       end
 
       def self.depend_on(scope, source, base=File.dirname(scope.logical_path))
-        import_paths = source.scan(IMPORT_SCANNER).flatten.compact.uniq
+        import_paths = source.scrub('').scan(IMPORT_SCANNER).flatten.compact.uniq
         import_paths.each do |path|
           pathname = PATHNAME_FINDER.call(scope, path) || PATHNAME_FINDER.call(scope, File.join(base, path))
           scope.depend_on(pathname) if pathname && pathname.to_s.ends_with?('.less')
